@@ -93,10 +93,9 @@ const pools = async (poolIndex, chain) => {
 
 const getPrices = async (chain, addresses) => {
 
+    const uri = `${addresses.map((address) => `${chain}:${address}`)}`;
     const prices = (
-        await superagent.post('https://coins.llama.fi/prices').send({
-            coins: addresses.map((address) => `${chain}:${address}`),
-        })
+        await superagent.get('https://coins.llama.fi/prices/current/' + uri)
     ).body.coins;
 
     const pricesObj = Object.entries(prices).reduce(
@@ -205,7 +204,7 @@ const main = async () => {
     poolsData.push(eth, bsc, avax, polygon, arbi, op, fantom);
     const exportData = poolsData.flat().filter((p) => utils.keepFinite(p));
 
-    return exportData;
+    return exportData.map((p) => ({ ...p, symbol: p.symbol.replace('S*', '') }));
 }
 
 module.exports = {

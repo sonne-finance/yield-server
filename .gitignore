@@ -10,3 +10,7 @@ ccImages
 *.csv
 *.sql
 scripts/*.json
+src/adaptors/list.js
+Untitled.ipynb
+.ipynb_checkpoints/
+yarn-error.log
